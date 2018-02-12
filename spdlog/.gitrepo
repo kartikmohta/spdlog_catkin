@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:gabime/spdlog.git
 	branch = master
-	commit = c336470320d2e7a3b70dca48bd822a0387d93a58
-	parent = 6dc1c3aaba12ccb819d5276dab916bdfe738f497
+	commit = 8cfd71a9bece1d7d265de51508144d82660d4371
+	parent = e457c68f3a78e6605531e5ed9750a785893e9558
 	method = merge
 	cmdver = 0.4.0

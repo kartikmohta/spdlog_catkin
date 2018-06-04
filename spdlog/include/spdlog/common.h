@@ -5,7 +5,7 @@
 
 #pragma once
 
-#define SPDLOG_VERSION "0.16.4-rc"
+#define SPDLOG_VERSION "0.17.0"
 
 #include "tweakme.h"
 
@@ -143,11 +143,6 @@ enum class pattern_time_type
 //
 // Log exception
 //
-namespace details {
-namespace os {
-std::string errno_str(int err_num);
-}
-} // namespace details
 class spdlog_ex : public std::exception
 {
 public:
@@ -158,7 +153,18 @@ public:
 
     spdlog_ex(const std::string &msg, int last_errno)
     {
-        _msg = msg + ": " + details::os::errno_str(last_errno);
+        std::string errno_string;
+        char buf[256], *buf_ptr = buf;
+
+        if (fmt::safe_strerror(last_errno, buf_ptr, sizeof(buf)) == 0)
+        {
+            errno_string = buf_ptr;
+        }
+        else
+        {
+            errno_string = "Unknown error";
+        }
+        _msg = msg + ": " + errno_string;
     }
 
     const char *what() const SPDLOG_NOEXCEPT override
@@ -179,4 +185,13 @@ using filename_t = std::wstring;
 using filename_t = std::string;
 #endif
 
+#define SPDLOG_CATCH_AND_HANDLE                                                                                                            \
+    catch (const std::exception &ex)                                                                                                       \
+    {                                                                                                                                      \
+        _err_handler(ex.what());                                                                                                           \
+    }                                                                                                                                      \
+    catch (...)                                                                                                                            \
+    {                                                                                                                                      \
+        _err_handler("Unknown exeption in logger");                                                                                        \
+    }
 } // namespace spdlog

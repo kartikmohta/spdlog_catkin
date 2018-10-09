@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>spdlog_catkin</name>
-  <version>0.16.3</version>
+  <version>0.17.0</version>
   <description>Catkin wrapper for spdlog</description>
 
   <maintainer email="kartikmohta@gmail.com">Kartik Mohta</maintainer>
